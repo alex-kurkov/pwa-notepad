@@ -1,15 +1,12 @@
 import {
   MantineProvider,
-  Text,
-  Flex,
   ColorSchemeProvider,
   ColorScheme,
 } from '@mantine/core';
-import M from './M';
-import { useState } from 'react';
+import { useLocaStorage } from 'src/utils/useLocalStorage';
 
-export default function App() {
-  const [colorScheme, setColorScheme] = useState<ColorScheme>('light');
+export function App({ children }: { children: React.ReactNode }) {
+  const [colorScheme, setColorScheme] = useLocaStorage<ColorScheme>('appTheme','light');
   const toggleColorScheme = (value?: ColorScheme) =>
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
@@ -18,11 +15,12 @@ export default function App() {
       colorScheme={colorScheme}
       toggleColorScheme={toggleColorScheme}
     >
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={{colorScheme}}>
-        <Flex h="100vh" w="100%" align="center" justify="center">
-          <Text>Welcome to Mantine!</Text>
-          <M />
-        </Flex>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme }}
+      >
+        {children}
       </MantineProvider>
     </ColorSchemeProvider>
   );
