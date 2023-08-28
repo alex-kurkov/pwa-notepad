@@ -1,61 +1,37 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Loader,
   Navbar,
   ScrollArea,
-  Text,
   TextInput,
-  Box,
-  List,
-  Title,
-  NavLink,
-  Button,
+  Flex,
+  createStyles,
 } from '@mantine/core';
 import { IconSearch } from 'components/Icon';
-import { useAuth } from 'context/authProvider';
-import { useParams, useNavigate } from 'react-router-dom';
-import { idb } from 'src/utils/idb';
-import { RouterPaths } from 'router/router-paths';
+import { useData } from 'context/dataProvider';
+import { NavigationListItem } from 'components/NavigationListItem';
 
+const useStyles = createStyles({
+  scrollable: {
+    '&>div': {
+      display: 'block'
+    }
+  }
+})
 interface Props {
   opened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface Note {
-  name: string;
-  content: string;
-  id: string;
-  created: Date;
-}
-
 export const Navigation: FC<Props> = ({ opened, setOpened }) => {
-  const [list, setList] = useState<Note[]>([]);
+  const { notes } = useData();
+  const [notesRenderedList, setNotesRenderedList] = useState<Note[]>([]);
   const [value, setValue] = useState('');
-  const { user } = useAuth();
 
-  // const handleCreate = () => {
-  //   idb.openDB(STORE_NAME, 1, { name: 'notes' });
-  // }
-
-  const handleAdd = () => {
-    const item = {
-      id: value,
-      name: value,
-      content: 'lorem ipsum eroivjewr gwgjw gjwg  sldj;w',
-      created: new Date(),
-    };
-
-    idb.addItem(item).then(() => setList(prev => [...prev, item]))
-  }
-
-  const handleDelete = () => {
-    idb.delete(Number(value));
-  }
+  const {classes} = useStyles();
 
   useEffect(() => {
-    idb.getAll<Note>().then(res => setList(res))
-  }, [])
+    setNotesRenderedList(notes);
+  }, [notes]);
 
   return (
     <Navbar
@@ -72,54 +48,19 @@ export const Navigation: FC<Props> = ({ opened, setOpened }) => {
           onChange={(e) => setValue(e.currentTarget.value)}
           mb="md"
           icon={<IconSearch color="white" />}
-          rightSection={<Loader size="sm" />}
         />
-        <Button onClick={() => handleAdd()}>ADD NOTE</Button>
-        <br />
-        <Button onClick={() => handleDelete()}>DELETE NOTE</Button>
-        <Text>{user}, your notes:</Text>
-        <ScrollArea type="auto">
-          <List listStyleType="none" spacing="md">
-            {list.map((item) => (
-              <ListItem item={item} key={item.id} closeBurger={() => setOpened(false)} />
+        <ScrollArea type="auto" h="calc(100vh - 200px)" className={classes.scrollable}>
+          <Flex direction="column">
+            {notesRenderedList.map((item) => (
+              <NavigationListItem
+                item={item}
+                key={item.id}
+                closeBurger={() => setOpened(false)}
+              />
             ))}
-          </List>
+          </Flex>
         </ScrollArea>
       </>
     </Navbar>
-  );
-};
-
-const ListItem: FC<{
-  item: Note;
-  closeBurger: () => void;
-}> = ({ item, closeBurger }) => {
-  const navigate = useNavigate();
-  const params = useParams();
-  const { id, content, name } = item;
-
-  const handleClick = () => {
-    closeBurger();
-    navigate(`${RouterPaths.NOTES}/${id}`);
-  };
-
-  return (
-    <List.Item onClick={() => handleClick()}>
-      <NavLink
-        active={params.id === id}
-        p={0}
-        noWrap
-        label={
-          <Box w={{ sm: 160, lg: 260 }}>
-            <Title truncate order={2}>
-              {name}
-            </Title>
-            <Text truncate fz="sm">
-              {content}
-            </Text>
-          </Box>
-        }
-      />
-    </List.Item>
   );
 };

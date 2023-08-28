@@ -15,7 +15,6 @@ class Idb {
 
     return new Promise((resolve, reject) => {
       const openRequest = indexedDB.open(name, 1);
-      openRequest.onerror = () => reject(openRequest.error);
 
       openRequest.onupgradeneeded = () => {
         const db = openRequest.result;
@@ -30,21 +29,21 @@ class Idb {
         });
       };
 
-      openRequest.onsuccess = () => resolve(openRequest.result);
+      this.handleRequestEvents(openRequest, resolve, reject);
     });
   }
 
-  addItem(item: unknown) {
+  addItem(item: Note) {
     return new Promise((resolve, reject) => {
       if (!this.baseName || !this.COLL_NAME) return;
       this.openDB(this.baseName)
-      .then((db) => this.getStore(db, 'readwrite'))
-      .then((store) => {
-        // using put method instead of add to rewrite existing '{keyPath: unique, ...}' objects
-        // collections.add(item) // with ConstraintError
-        const request = store.put(item);
+        .then((db) => this.getStore(db, 'readwrite'))
+        .then((store) => {
+          // using put method instead of add to rewrite existing '{keyPath: unique, ...}' objects
+          // collections.add(item) // with ConstraintError
+          const request = store.put(item);
 
-          this.handleRequestEvents(request, resolve, reject);
+          this.handleRequestEvents<Note>(request, resolve, reject);
         });
     });
   }
@@ -56,7 +55,7 @@ class Idb {
         .then((db) => this.getStore(db))
         .then((store) => {
           const request = store.getAll();
-          this.handleRequestEvents(request, resolve, reject);
+          this.handleRequestEvents<P[]>(request, resolve, reject);
         })
         .catch((e) => reject(e));
     });

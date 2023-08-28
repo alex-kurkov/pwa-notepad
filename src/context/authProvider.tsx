@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import { idb } from 'src/utils/idb';
 import { useLocaStorage } from 'utils/useLocalStorage';
+import { useData } from './dataProvider';
 
 interface IAuthContext {
   user: User;
@@ -15,21 +16,31 @@ const AuthContext = createContext<IAuthContext>({
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const { setNotes, setLoading, setActiveNote } = useData();
   const [user, setUser] = useLocaStorage<User>('user', null);
-  
+
   const login = (newUser: User, cb?: CbVoid) => {
     setUser(newUser);
     if (typeof cb === 'function') cb();
   };
+
   const logout = (cb?: CbVoid) => {
     setUser(null);
     if (typeof cb === 'function') cb();
   };
 
   useEffect(() => {
-    if (!user) return;
-    idb.openDB(user)
-  }, [user])
+    setLoading(true);
+    if (user) {
+      idb.openDB(user);
+      idb.getAll<Note>().then(setNotes);
+      } else {
+        setNotes([]);
+        setActiveNote(null);
+      }
+      setLoading(false);
+
+  }, [setActiveNote, setLoading, setNotes, user]);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>

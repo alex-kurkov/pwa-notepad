@@ -1,12 +1,14 @@
-import { useParams } from 'react-router-dom';
-import { Title, } from '@mantine/core';
-
+import { NoteMode, useData } from 'context/dataProvider';
+import { NoteRender } from 'components/NoteRender';
+import { NoteEdit } from 'components/NoteEdit';
 
 export const NotePage = () => {
-  const {id} = useParams()
+  const { noteMode } = useData();
+
   return (
-    <Title order={2}>
-     {id}
-    </Title>
+    <>
+      {noteMode === NoteMode.edit && <NoteEdit />}
+      {noteMode === NoteMode.render && <NoteRender />}
+    </>
   );
 };
