@@ -30,7 +30,7 @@ export const NoteEdit = () => {
         </Button>
         <DeleteNoteButton />
       </Flex>
-      <ScrollArea h="calc(100vh - 200px)">
+      <ScrollArea h="calc(100vh - 200px)" >
         <Textarea
           autoFocus
           autosize

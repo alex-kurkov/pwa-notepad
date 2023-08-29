@@ -40,7 +40,7 @@ export const Navigation: FC<Props> = ({ opened, setOpened }) => {
     >
       <>
         <AddNoteButton />
-        <SearchBox setList={(list) => setNotesRenderedList(list)}/>
+        <SearchBox setList={setNotesRenderedList}/>
         <ScrollArea type="auto" h="calc(100vh - 200px)" className={classes.scrollable}>
           <Flex direction="column">
             {notesRenderedList.map((item) => (

@@ -29,18 +29,17 @@ export const LoginPage = () => {
  
   return (
     <>
-      {user && <Navigate to={RouterPaths.MAIN} replace/>}
-      <Title order={2}>LOGIN</Title>
+      {user && <Navigate to={RouterPaths.MAIN} replace />}
+      <Title order={2}>ENTER YOUR NAME</Title>
       <form onSubmit={handleSubmit}>
         <Flex gap={24} direction="column" align="center">
           <TextInput
             w="100%"
             name={INPUT_NAME}
             placeholder="username..."
-            label="ENTER YOUR NAME"
           />
-          <Button w="100%" variant="filled" type="submit">
-            LOG IN
+          <Button w="100%" variant="filled" type="submit" uppercase>
+            LOG IN / Register
           </Button>
         </Flex>
       </form>

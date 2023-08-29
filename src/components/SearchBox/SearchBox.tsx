@@ -18,7 +18,7 @@ export const SearchBox: FC<Props> = ({ setList }) => {
       setList(notes);
       return;
     }
-    const found = notes.filter(({ content }) => content.includes(value));
+    const found = notes.filter(({ content }) => content.includes(value.trim()));
     setList(found);
   }, 500, [value]);
 

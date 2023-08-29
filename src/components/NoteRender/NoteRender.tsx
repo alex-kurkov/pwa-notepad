@@ -1,4 +1,4 @@
-import { Box, ScrollArea, Button, Flex } from '@mantine/core';
+import { ScrollArea, Button, Flex, Container } from '@mantine/core';
 import { DeleteNoteButton } from 'components/DeleteNoteButton';
 import { NoteMode, useData } from 'context/dataProvider';
 import dompurify from 'dompurify';
@@ -29,8 +29,17 @@ export const NoteRender = () => {
         </Button>
         <DeleteNoteButton />
       </Flex>
-      <ScrollArea h="calc(100vh - 200px)">
-        <Box ref={ref} />
+      <ScrollArea
+        h="calc(100vh - 200px)"
+        styles={{
+          viewport: {
+            '&>div': {
+              display: 'block !important',
+            },
+          },
+        }}
+      >
+        <Container ref={ref} />
       </ScrollArea>
     </>
   );
