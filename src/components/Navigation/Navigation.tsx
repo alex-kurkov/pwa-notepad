@@ -2,13 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 import {
   Navbar,
   ScrollArea,
-  TextInput,
   Flex,
   createStyles,
 } from '@mantine/core';
-import { IconSearch } from 'components/Icon';
 import { useData } from 'context/dataProvider';
 import { NavigationListItem } from 'components/NavigationListItem';
+import { AddNoteButton } from 'components/AddNoteButton';
+import { SearchBox } from 'components/SearchBox';
 
 const useStyles = createStyles({
   scrollable: {
@@ -25,8 +25,6 @@ interface Props {
 export const Navigation: FC<Props> = ({ opened, setOpened }) => {
   const { notes } = useData();
   const [notesRenderedList, setNotesRenderedList] = useState<Note[]>([]);
-  const [value, setValue] = useState('');
-
   const {classes} = useStyles();
 
   useEffect(() => {
@@ -41,14 +39,8 @@ export const Navigation: FC<Props> = ({ opened, setOpened }) => {
       width={{ sm: 200, lg: 300 }}
     >
       <>
-        <TextInput
-          placeholder="search"
-          label="Search notes"
-          value={value}
-          onChange={(e) => setValue(e.currentTarget.value)}
-          mb="md"
-          icon={<IconSearch color="white" />}
-        />
+        <AddNoteButton />
+        <SearchBox setList={(list) => setNotesRenderedList(list)}/>
         <ScrollArea type="auto" h="calc(100vh - 200px)" className={classes.scrollable}>
           <Flex direction="column">
             {notesRenderedList.map((item) => (

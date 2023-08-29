@@ -1,5 +1,4 @@
 import { Box, ScrollArea, Button, Flex } from '@mantine/core';
-import { AddNoteButton } from 'components/AddNoteButton';
 import { DeleteNoteButton } from 'components/DeleteNoteButton';
 import { NoteMode, useData } from 'context/dataProvider';
 import dompurify from 'dompurify';
@@ -29,7 +28,6 @@ export const NoteRender = () => {
           Edit current note
         </Button>
         <DeleteNoteButton />
-        <AddNoteButton />
       </Flex>
       <ScrollArea h="calc(100vh - 200px)">
         <Box ref={ref} />

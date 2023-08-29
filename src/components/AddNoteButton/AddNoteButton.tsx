@@ -29,7 +29,7 @@ export const AddNoteButton = () => {
   };
 
   return (
-    <Button uppercase onClick={() => handleAdd()}>
+    <Button uppercase onClick={() => handleAdd()} h={40}>
       Create new Note
     </Button>
   );

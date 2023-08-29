@@ -7,7 +7,7 @@ export const MainPage = () => {
   return (
     <Box pt={60}>
       <Text size={32} w="80%" mx="auto" ta="center">
-        Hey there, {user}! Choose note on the left to begin or create new note
+        Hey there, {user}! Choose note to begin or create a new one
       </Text>
       <Center mt="lg">
         <AddNoteButton />
