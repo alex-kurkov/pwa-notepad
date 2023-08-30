@@ -25,7 +25,7 @@ export const NavigationListItem: FC<Props> = ({ item, closeBurger }) => {
   return (
     <NavLink
       w={{ sm: 160, lg: 254 }}
-      onClick={() => handleClick()}
+      onClick={handleClick}
       active={params.id === id}
       p={0}
       noWrap

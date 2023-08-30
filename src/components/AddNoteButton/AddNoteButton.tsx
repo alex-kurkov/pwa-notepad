@@ -6,7 +6,7 @@ import { idb } from 'src/utils/idb';
 import uuid from 'react-uuid';
 
 export const AddNoteButton = () => {
-  const { setActiveNote, setNotes, setNoteMode } = useData();
+  const { setNotes, setNoteMode, setActiveNote } = useData();
   const navigate = useNavigate();
 
   const handleAdd = () => {

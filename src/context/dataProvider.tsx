@@ -3,8 +3,10 @@ import React, {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react';
+import { useParams } from 'react-router-dom';
 
 export enum NoteMode {
   edit = 'edit',
@@ -40,6 +42,15 @@ export const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [activeNote, setActiveNote] = useState<Nullable<Note>>(null);
   const [noteMode, setNoteMode] = useState<NoteMode>(NoteMode.render);
   const [notes, setNotes] = useState<Note[]>([]);
+
+  const { id } = useParams();
+  useEffect(() => {
+    if (id) {
+      const found = notes.find((note) => note.id === id);
+      setActiveNote(found ?? null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   return (
     <DataContext.Provider
