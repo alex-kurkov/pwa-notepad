@@ -7,7 +7,7 @@ export const ProtectedRoute: FC<PropsWithChildren> = ({ children }) => {
   const { user } = useAuth();
   const location = useLocation();
 
-  if (user === null) {
+  if (!user) {
     return (
       <Navigate
         to={RouterPaths.LOGIN}
@@ -17,5 +17,5 @@ export const ProtectedRoute: FC<PropsWithChildren> = ({ children }) => {
     );
   }
 
-  return children;
+  return <>{children}</>;
 };

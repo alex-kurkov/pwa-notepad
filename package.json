@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && scp -r ./dist/* kurkov@130.193.57.4:/home/kurkov/pwanotepad"
   },
   "dependencies": {
     "@mantine/core": "6.0.19",
