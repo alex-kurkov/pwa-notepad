@@ -1,6 +1,7 @@
 {
   "name": "Notepad",
   "short_name": "Notepad",
+  "start_url": "/",
   "icons": [
     {
       "src": "/favicon-16x16.png",
