@@ -12,6 +12,22 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+          try {
+            const registration = await navigator.serviceWorker.register(
+              '/sw.js'
+            );
+            console.log('Service worker register success', registration.scope);
+          } catch (e) {
+            console.log('Service worker register fail', e);
+          }
+        });
+      } else {
+        console.log('service worker is not supported');
+      }
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
