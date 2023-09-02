@@ -3,13 +3,18 @@ import { Textarea, Button, Flex, ScrollArea } from '@mantine/core';
 import { DeleteNoteButton } from 'components/DeleteNoteButton';
 import { NoteMode, useData } from 'context/dataProvider';
 import { idb } from 'src/utils/idb';
+import { useDebounce } from 'src/utils/useDebounce';
 
 export const NoteEdit = () => {
   const { activeNote, setActiveNote, setNotes, setNoteMode } = useData();
 
   const [content, setContent] = useState(activeNote?.content ?? '');
 
-  const save = () => {
+  useDebounce(() => {
+    save()
+  }, 500, [content])
+
+  function save () {
     if (!activeNote) return;
     const changedNote: Note = { ...activeNote, updated: new Date(), content };
 
@@ -18,15 +23,14 @@ export const NoteEdit = () => {
         prev.map((note) => (note.id === changedNote.id ? changedNote : note))
       );
       setActiveNote(changedNote);
-      setNoteMode(NoteMode.render);
     });
-  }; 
+  }
 
   return (
     <>
       <Flex gap="md">
-        <Button uppercase onClick={() => save()}>
-          Save current
+        <Button uppercase onClick={() => {setNoteMode(NoteMode.render)}}>
+          Exit
         </Button>
         <DeleteNoteButton />
       </Flex>

@@ -13,7 +13,6 @@
   "dependencies": {
     "@mantine/core": "6.0.19",
     "@mantine/tiptap": "6.0.19",
-    "@tiptap/extension-placeholder": "2.1.7",
     "@types/marked": "5.0.1",
     "dompurify": "3.0.5",
     "marked": "7.0.4",
