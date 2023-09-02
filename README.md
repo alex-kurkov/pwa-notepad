@@ -1,7 +1,7 @@
 MD Notepad PWA App
 =======
 
-PWA-приложение на стеке:
+PWA-app build with:
 
 `Vite` + `React` + `React-router` + `TS` + `marked` + `Mantine`
 
